@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evotide.CSharp", "Evotide.CSharp.csproj", "{8C0C63B2-63EF-6862-7B62-5DDAC2FFAEF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evotide.CSharp.Editor", "Evotide.CSharp.Editor.csproj", "{A6970ED2-D9AD-397A-70CA-4156B5D84EF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{8C0C63B2-63EF-6862-7B62-5DDAC2FFAEF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C0C63B2-63EF-6862-7B62-5DDAC2FFAEF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C0C63B2-63EF-6862-7B62-5DDAC2FFAEF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6970ED2-D9AD-397A-70CA-4156B5D84EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6970ED2-D9AD-397A-70CA-4156B5D84EF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6970ED2-D9AD-397A-70CA-4156B5D84EF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6970ED2-D9AD-397A-70CA-4156B5D84EF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

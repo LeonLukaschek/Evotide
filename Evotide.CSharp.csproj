@@ -68,9 +68,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Enemy_Unit_01.cs" />
+    <Compile Include="Assets\Scripts\FieldOfView.cs" />
     <Compile Include="Assets\Scripts\Formation.cs" />
+    <Compile Include="Assets\Scripts\Player_Unit_Gun.cs" />
     <Compile Include="Assets\Scripts\SelectableUnitComponent.cs" />
     <Compile Include="Assets\Scripts\UnitSelectionComponent.cs" />
     <Compile Include="Assets\Scripts\Unit_01.cs" />

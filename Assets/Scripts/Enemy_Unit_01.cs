@@ -8,20 +8,28 @@ public class Enemy_Unit_01 : MonoBehaviour
     public GameObject target;
     public List<Transform> points = new List<Transform>();
 
+    private Transform closesetTransform;
+
     private int lastWayPoint = 0;
     private int currentWayPoint = 0;
     private int destPoint = 0;
+    private int counter;
+    private int closestIndex;
+    private int count;
 
     private float nextPointFloat = 5;
+    private float lastInList;
+    private float closest;
 
     private bool hasTakenOtherPath;
 
     private NavMeshAgent agent;
+    private FieldOfView fow;
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-
+        fow = GetComponent<FieldOfView>();
         agent.autoBraking = true;
     }
 
@@ -65,9 +73,48 @@ public class Enemy_Unit_01 : MonoBehaviour
     {
         // Choose the next destination point when the agent gets
         // close to the current one.
-        if (agent.remainingDistance < 0.5f)
+
+        if (agent.remainingDistance < 0.5f && !target)
         {
             GotoNextPoint();
+        }
+
+        //Find the closest enemy in fieldoview if there is an enemy
+        FindClosestEnemy();
+        //Get the size of the list
+        foreach (Transform t in fow.visibleTargets)
+        {
+            counter++;
+        }
+
+        //If there are enemys in the list, look at them
+        if (counter > 0)
+        {
+            closesetTransform = fow.visibleTargets[closestIndex];
+            target = closesetTransform.gameObject;
+            this.transform.LookAt(closesetTransform);
+        }
+
+        counter = 0;
+    }
+
+    private void FindClosestEnemy()
+    {
+        if (fow.visibleTargets.Count > 0)
+        {
+            foreach (Transform t in fow.visibleTargets)
+            {
+                float distance = Vector3.Distance(this.transform.position, t.transform.position);
+                if (distance < lastInList)
+                {
+                    closest = distance;
+                    closestIndex = count;
+                }
+
+                lastInList = distance;
+                count++;
+            }
+            count = 0;
         }
     }
 }
