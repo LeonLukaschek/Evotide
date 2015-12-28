@@ -13,22 +13,15 @@ public class Formation : MonoBehaviour
 
     private int soldierCount;
 
-    private void Start()
+    public void Formate()
     {
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
+        Reset();
+        for (int i = 0; i < uSelect.selectedUnits.Count; i++)
         {
-            Reset();
-            for (int i = 0; i < uSelect.selectedUnits.Count; i++)
-            {
-                soldiers.Add(uSelect.selectedUnits[i].gameObject);
-            }
-
-            Formate();
+            soldiers.Add(uSelect.selectedUnits[i].gameObject);
         }
+
+        FormateUnity();
     }
 
     private void Reset()
@@ -38,7 +31,7 @@ public class Formation : MonoBehaviour
         offsetCounter = 0;
     }
 
-    private void Formate()
+    private void FormateUnity()
     {
         for (int i = 1; i < soldiers.Count; i++)
         {

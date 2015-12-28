@@ -7,6 +7,8 @@ public class CameraController : MonoBehaviour
     public float rotationSpeed = 4f;
     public float smoothness = 0.85f;
 
+    public Formation formation;
+
     private Vector3 targetPosition;
 
     public Quaternion targetRotation;
@@ -25,6 +27,16 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        Move();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            formation.Formate();
+        }
+    }
+
+    //Move controlls
+    private void Move()
+    {
         if (Input.GetKey(KeyCode.W))
             targetPosition += transform.forward * movementSpeed;
         if (Input.GetKey(KeyCode.A))
@@ -40,13 +52,10 @@ public class CameraController : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
-            Cursor.visible = false;
             targetRotationY += Input.GetAxis("Mouse X") * rotationSpeed;
             targetRotationX -= Input.GetAxis("Mouse Y") * rotationSpeed;
             targetRotation = Quaternion.Euler(targetRotationX, targetRotationY, 0.0f);
         }
-        else
-            Cursor.visible = true;
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, (1.0f - smoothness));
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, (1.0f - smoothness));
