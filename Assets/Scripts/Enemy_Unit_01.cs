@@ -12,6 +12,7 @@ public class Enemy_Unit_01 : MonoBehaviour
     public float health;
 
     private Transform closesetTransform;
+    private EnemyUnitGun gun;
 
     private int lastWayPoint = 0;
     private int currentWayPoint = 0;
@@ -32,6 +33,7 @@ public class Enemy_Unit_01 : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         fow = GetComponent<FieldOfView>();
+        gun = GetComponent<EnemyUnitGun>();
         agent.autoBraking = true;
     }
 
@@ -44,16 +46,22 @@ public class Enemy_Unit_01 : MonoBehaviour
         {
             GotoNextPoint();
         }
-        else if (fow.visibleTargets.Count > 0)
+        if (fow.visibleTargets.Count > 0)
         {
             FindClosestEnemy();
             closesetTransform = fow.visibleTargets[closestIndex];
             target = closesetTransform.gameObject;
-            this.transform.LookAt(closesetTransform);
         }
         else
         {
             target = null;
+        }
+
+        if (target)
+        {
+            this.transform.LookAt(closesetTransform);
+            Debug.Log("Shooting");
+            gun.Shoot();
         }
 
         if (health <= 0)

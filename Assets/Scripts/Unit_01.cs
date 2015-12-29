@@ -7,6 +7,14 @@ public class Unit_01 : MonoBehaviour
 
     public float offset;
 
+    [Header("Health")]
+    public float timeToRegen;
+
+    public float regeneratedHealth;
+
+    [Range(0, 100)]
+    public float health;
+
     private Transform closesetTransform;
     private Player_Unit_Gun gun;
 
@@ -16,6 +24,7 @@ public class Unit_01 : MonoBehaviour
     private float nextPointFloat = 5;
     private float lastInList;
     private float closest;
+    private float maxHealth;
 
     private int counter;
     private int closestIndex;
@@ -26,12 +35,11 @@ public class Unit_01 : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         fow = GetComponent<FieldOfView>();
         gun = GetComponent<Player_Unit_Gun>();
+        maxHealth = health;
     }
 
     private void LateUpdate()
     {
-        Debug.Log(transform.forward);
-
         if (isSelected)
         {
             if (Input.GetMouseButtonDown(1))
@@ -59,11 +67,45 @@ public class Unit_01 : MonoBehaviour
         if (counter != 0)
         {
             closesetTransform = fow.visibleTargets[closestIndex];
+
             gun.Shoot();
             this.transform.LookAt(closesetTransform);
         }
-
         counter = 0;
+
+        StartCoroutine(RegenerateHealth());
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        this.gameObject.SetActive(false);
+        Destroy(this.gameObject, 1f);
+    }
+
+    private IEnumerator RegenerateHealth()
+    {
+        if (health < maxHealth)
+        {
+            health += regeneratedHealth;
+            yield return new WaitForSeconds(timeToRegen);
+        }
+        else
+        {
+            yield return new WaitForSeconds(.2f);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Bullet")
+        {
+            health -= other.GetComponent<Bullet>().damage;
+        }
     }
 
     private void FindClosestEnemy()
