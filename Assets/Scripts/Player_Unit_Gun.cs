@@ -34,7 +34,7 @@ public class Player_Unit_Gun : MonoBehaviour
         if (Time.time > nextShotTime)
         {
             nextShotTime = Time.time + msBetweenShots / 1000;
-            GameObject newProjectile = Instantiate(bullet, bulletHolder.transform.position, this.gameObject.transform.rotation) as GameObject;
+            Instantiate(bullet, bulletHolder.transform.position, this.gameObject.transform.rotation);
         }
     }
 }

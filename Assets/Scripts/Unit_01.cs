@@ -28,8 +28,10 @@ public class Unit_01 : MonoBehaviour
         gun = GetComponent<Player_Unit_Gun>();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
+        Debug.Log(transform.forward);
+
         if (isSelected)
         {
             if (Input.GetMouseButtonDown(1))
@@ -43,11 +45,14 @@ public class Unit_01 : MonoBehaviour
             }
         }
 
-        FindClosestEnemy();
         //Get the size of the list
-        foreach (Transform t in fow.visibleTargets)
+        if (fow.visibleTargets.Count > 0)
         {
-            counter++;
+            FindClosestEnemy();
+            foreach (Transform t in fow.visibleTargets)
+            {
+                counter++;
+            }
         }
 
         //If there are enemys in the list, look at them

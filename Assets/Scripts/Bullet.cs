@@ -4,6 +4,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed;
+    public float damage;
 
     private GameObject bulletHolder;
 
@@ -11,6 +12,7 @@ public class Bullet : MonoBehaviour
     {
         bulletHolder = GameObject.Find("BulletHolder");
         this.transform.parent = bulletHolder.transform;
+
         Destroy(this.gameObject, 5f);
     }
 

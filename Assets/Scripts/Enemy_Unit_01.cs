@@ -8,11 +8,13 @@ public class Enemy_Unit_01 : MonoBehaviour
     public GameObject target;
     public List<Transform> points = new List<Transform>();
 
+    [Range(0, 100)]
+    public float health;
+
     private Transform closesetTransform;
 
     private int lastWayPoint = 0;
     private int currentWayPoint = 0;
-    private int destPoint = 0;
     private int counter;
     private int closestIndex;
     private int count;
@@ -31,6 +33,47 @@ public class Enemy_Unit_01 : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         fow = GetComponent<FieldOfView>();
         agent.autoBraking = true;
+    }
+
+    private void LateUpdate()
+    {
+        // Choose the next destination point when the agent gets
+        // close to the current one.
+
+        if (agent.remainingDistance < 0.5f && !target)
+        {
+            GotoNextPoint();
+        }
+        else if (fow.visibleTargets.Count > 0)
+        {
+            FindClosestEnemy();
+            closesetTransform = fow.visibleTargets[closestIndex];
+            target = closesetTransform.gameObject;
+            this.transform.LookAt(closesetTransform);
+        }
+        else
+        {
+            target = null;
+        }
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Bullet")
+        {
+            health -= other.GetComponent<Bullet>().damage;
+        }
+    }
+
+    private void Die()
+    {
+        this.gameObject.SetActive(false);
+        Destroy(this.gameObject, 1f);
     }
 
     private void GotoNextPoint()
@@ -69,36 +112,7 @@ public class Enemy_Unit_01 : MonoBehaviour
         Destroy(spawnedWayPoint, 10);
     }
 
-    private void Update()
-    {
-        // Choose the next destination point when the agent gets
-        // close to the current one.
-
-        if (agent.remainingDistance < 0.5f && !target)
-        {
-            GotoNextPoint();
-        }
-
-        //Find the closest enemy in fieldoview if there is an enemy
-        FindClosestEnemy();
-        //Get the size of the list
-        foreach (Transform t in fow.visibleTargets)
-        {
-            counter++;
-        }
-
-        //If there are enemys in the list, look at them
-        if (counter > 0)
-        {
-            closesetTransform = fow.visibleTargets[closestIndex];
-            target = closesetTransform.gameObject;
-            this.transform.LookAt(closesetTransform);
-        }
-
-        counter = 0;
-    }
-
-    private void FindClosestEnemy()
+    private GameObject FindClosestEnemy()
     {
         if (fow.visibleTargets.Count > 0)
         {
@@ -115,6 +129,10 @@ public class Enemy_Unit_01 : MonoBehaviour
                 count++;
             }
             count = 0;
+
+            return fow.visibleTargets[closestIndex].gameObject;
         }
+
+        return null;
     }
 }

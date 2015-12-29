@@ -37,7 +37,6 @@ public class Formation : MonoBehaviour
         {
             Debug.Log("Formating i: " + i);
             AddOffset();
-
             soldiers[i].GetComponent<Unit_01>().AddOffset(offset);
             soldiers[i].GetComponent<NavMeshAgent>().stoppingDistance = 0.05f;
             soldiers[i].GetComponent<NavMeshAgent>().destination += new Vector3(offset, 0, 0);
